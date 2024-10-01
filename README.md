@@ -42,7 +42,8 @@ class SentenceGetter(object):
         self.n_sent = 1
         self.data = data
         self.empty = False
-        agg_func=lambda s:[(w,p,t)for w,p,t in zip(s["Word"].values.tolist(),s["POS"].values.tolist(),s["Tag"].values.tolist())]
+        agg_func=lambda s:[(w,p,t)for w,p,t in zip(s["Word"].values.tolist(),
+                        s["POS"].values.tolist(),s["Tag"].values.tolist())]
         self.grouped = self.data.groupby("Sentence #").apply(agg_func)
         self.sentences = [s for s in self.grouped]  
     def get_next(self):
@@ -73,9 +74,11 @@ Xtrain,Xtest,ytrain,ytest=train_test_split(X,Y,test_size=0.2,random_state=1)
 ##### Build the LSTM Model Architecture
 ```Python
 input_word = layers.Input(shape=(max_len,))  
-embedding_layer = layers.Embedding(input_dim=num_words,output_dim=50,input_length=max_len)(input_word)
+embedding_layer = layers.Embedding(input_dim=num_words,output_dim=50,
+                  input_length=max_len)(input_word)
 dropout = layers.SpatialDropout1D(0.1)(embedding_layer)
-bid_lstm = layers.Bidirectional(layers.LSTM(units=100,return_sequences=True,recurrent_dropout=0.1))(dropout)
+bid_lstm = layers.Bidirectional(layers.LSTM(units=100,
+              return_sequences=True,recurrent_dropout=0.1))(dropout)
 output = layers.TimeDistributed(layers.Dense(num_tags,activation="softmax"))(bid_lstm)
 model = Model(input_word, output)  
 model.summary()
@@ -105,27 +108,17 @@ for w, true, pred in zip(Xtest[i], ytrue, p[0]):
 ```
 
 ### OUTPUT
-<table>
-<tr>
-<td width=50%>
-  
 
 ##### Sample Text Prediction
-<img height=30% src="https://github.com/user-attachments/assets/665c6895-7912-41b4-966d-454004c443af">
+<img height=20% src="https://github.com/user-attachments/assets/665c6895-7912-41b4-966d-454004c443af"><img height=15% src="https://github.com/user-attachments/assets/8d73fcbf-b641-4a88-8ce5-3633d67e266d"><img height=15% src="https://github.com/user-attachments/assets/2dc8212d-041d-4fba-80bf-b4e69ff4c65e">
 
-
-</td> 
-<td>
 
 ##### Training Loss, Validation Loss Vs Iteration Plot  
-<img height=15% src="https://github.com/user-attachments/assets/8d73fcbf-b641-4a88-8ce5-3633d67e266d">
+
 
 ##### Accuracy, Validation Accuracy Vs Iteration Plot
-<img height=15% src="https://github.com/user-attachments/assets/2dc8212d-041d-4fba-80bf-b4e69ff4c65e">
 
-</td>
-</tr> 
-</table>
+
 
 
 
