@@ -58,15 +58,13 @@ class SentenceGetter(object):
 ```Python
 getter = SentenceGetter(data)
 sentences = getter.sentences
-len(sentences)
 word2idx = {w: i + 1 for i, w in enumerate(words)}
 tag2idx = {t: i for i, t in enumerate(tags)}
 X1 = [[word2idx[w[0]] for w in s] for s in sentences]
 ```
 ##### Pad Sequences and Split Data into Train/Test Sets
 ```Python
-max_len = 100
-X = sequence.pad_sequences(maxlen=max_len,sequences=X1, padding="post",value=num_words-1)
+X = sequence.pad_sequences(maxlen=100,sequences=X1, padding="post",value=num_words-1)
 y1 = [[tag2idx[w[2]] for w in s] for s in sentences]
 Y = sequence.pad_sequences(maxlen=max_len,sequences=y1,padding="post",value=tag2idx["O"])
 Xtrain,Xtest,ytrain,ytest=train_test_split(X,Y,test_size=0.2,random_state=1)
@@ -90,8 +88,7 @@ model.fit(x=Xtrain, y=ytrain, validation_data=(Xtest,ytest),batch_size=50,epochs
 ```
 ##### Evaluate Model Performance and Plot Metrics
 ```Python
-metrics = pd.DataFrame(model.history.history)
-metrics.head()
+metrics = pd.DataFrame(model.history.history)        
 metrics[['accuracy','val_accuracy']].plot()
 metrics[['loss','val_loss']].plot()
 ```
@@ -107,23 +104,10 @@ for w, true, pred in zip(Xtest[i], ytrue, p[0]):
     print("{:15}{}\t{}".format(words[w-1], tags[true], tags[pred]))
 ```
 
-### OUTPUT
+### Output:
 
-##### Sample Text Prediction
-<img height=20% src="https://github.com/user-attachments/assets/665c6895-7912-41b4-966d-454004c443af"><img height=15% src="https://github.com/user-attachments/assets/8d73fcbf-b641-4a88-8ce5-3633d67e266d"><img height=15% src="https://github.com/user-attachments/assets/2dc8212d-041d-4fba-80bf-b4e69ff4c65e">
-
-
-##### Training Loss, Validation Loss Vs Iteration Plot  
-
-
-##### Accuracy, Validation Accuracy Vs Iteration Plot
-
-
-
-
-
-
-
+**Sample Text Prediction**<br>
+<img height=20% width=30% src="https://github.com/user-attachments/assets/665c6895-7912-41b4-966d-454004c443af"><img valign=top height=20% width=35% src="https://github.com/user-attachments/assets/7318c0cf-8b2b-4ce5-b037-677c8f56d07f"><img valign=top height=20% width=35% src="https://github.com/user-attachments/assets/6dbc5b5d-eaed-4591-867f-d0fefd20da79">
 
 ### Result:
 Thus, an LSTM-based model for recognizing the named entities in the text is successfully developed.
