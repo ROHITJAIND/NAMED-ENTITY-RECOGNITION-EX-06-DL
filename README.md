@@ -88,9 +88,11 @@ model.fit(x=Xtrain, y=ytrain, validation_data=(Xtest,ytest),batch_size=50,epochs
 ```
 ##### Evaluate Model Performance and Plot Metrics
 ```Python
-metrics = pd.DataFrame(model.history.history)        
+metrics = pd.DataFrame(model.history.history)
 metrics[['accuracy','val_accuracy']].plot()
+plt.title('Training Accuracy vs. Validation Accuracy')
 metrics[['loss','val_loss']].plot()
+plt.title('Training Loss vs. Validation Loss')
 ```
 ##### Make Predictions and Display Results
 ```Python
@@ -98,6 +100,7 @@ i = 21
 p = model.predict(np.array([Xtest[i]]))
 p = np.argmax(p, axis=-1)
 ytrue = ytest[i]
+print("ROHIT JAIN D - 212222230120")
 print("{:15}{:5}\t {}\n".format("Word", "True", "Pred"))
 print("-" *30)
 for w, true, pred in zip(Xtest[i], ytrue, p[0]):
